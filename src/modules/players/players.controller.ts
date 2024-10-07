@@ -7,13 +7,14 @@ import { PaginationValidationPipe } from 'src/common/pipes/paginations.pipe';
 import { FindByIdPipeCustom } from 'src/common/pipes/find-by-id.pipe';
 import { FindById } from 'src/common/dto/find-by-id.dto';
 import { UpdatePlayerPipe } from './pipes/update-player.pipe';
+import { CreatePlayerPipe } from './pipes/create-player.pipe';
 
 @Controller('players')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Post()
-  create(@Body() createPlayerDto: CreatePlayerDto) {
+  create(@Body(CreatePlayerPipe) createPlayerDto: CreatePlayerDto) {
     return this.playersService.createPlayer(createPlayerDto);
   }
 
@@ -23,17 +24,17 @@ export class PlayersController {
   }
 
   @Get(':id')
-  findOne(@Param(FindByIdPipeCustom) id:FindById) {
+  findOne(@Param('id',new FindByIdPipeCustom()) id:FindById) {
     return this.playersService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param(FindByIdPipeCustom) id:FindById, @Body(UpdatePlayerPipe) updatePlayer: UpdatePlayerDto) {
+  update(@Param('id',new FindByIdPipeCustom()) id:FindById, @Body(UpdatePlayerPipe) updatePlayer: UpdatePlayerDto) {
     return this.playersService.update(id, updatePlayer);
   }
 
   @Delete(':id')
-  remove(@Param(FindByIdPipeCustom) id:FindById) {
+  remove(@Param('id',new FindByIdPipeCustom()) id:FindById) {
     return this.playersService.remove(id);
   }
 }

@@ -1,36 +1,38 @@
 import {
     ArgumentMetadata,
     BadRequestException,
-    Inject,
     Injectable,
     PipeTransform,
 } from '@nestjs/common';
 import { FindById } from '../dto/find-by-id.dto'; 
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { PlayersService } from '../../modules/players/players.service'; 
 
 @Injectable()
 export class FindByIdPipeCustom implements PipeTransform {
-    constructor(@Inject() private playersService: PlayersService) {}
-
     async transform(value: any, { metatype }: ArgumentMetadata) {
-        
+        // Comprobar si el metatype es FindById
         if (metatype !== FindById) {
-            return value;
+            return value; // Retorna el valor original si no es el tipo esperado
         }
 
+        // Asegúrate de que value es un string que contiene el id
+        if (typeof value !== 'string') {
+            throw new BadRequestException('ID must be a string');
+        }
+
+        // Convertir el valor a una instancia del DTO FindById
         const object = plainToInstance(FindById, { id: value });
-        const player = await this.playersService.findOne({ id: value });
-        if (!player) {
-            throw new BadRequestException('The ID was not found.');
-        }
 
-        
+        // Validar el objeto
         const errors = await validate(object);
         if (errors.length > 0) {
-            throw new BadRequestException('Validation error: Invalid format for ID.');
+            const errorMessages = errors.map(error =>
+                Object.values(error.constraints).join(', ')
+            ).join('; ');
+            throw new BadRequestException(`Validation failed: ${errorMessages}`);
         }
-        return value;
+
+        return object; // Devuelve el objeto validado
     }
 }

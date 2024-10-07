@@ -1,5 +1,6 @@
 
-import { IsEmail, IsNumber, IsString, IsBoolean, IsOptional, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNumber, IsString, IsBoolean, IsOptional, IsNotEmpty} from 'class-validator';
+import { LengthNumber } from 'src/common/decorators/valid-digit.decorator';
 
 export class CreatePlayerDto {
     @IsNotEmpty()
@@ -32,6 +33,7 @@ export class CreatePlayerDto {
 
     @IsNotEmpty()
     @IsNumber()
+    @LengthNumber(10)
     whatsapp: number;
 }
 

@@ -13,6 +13,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { PaginationDTO } from 'src/common/dto/pagination.dto';
+import { FindById } from 'src/common/dto/find-by-id.dto';
 
 @Injectable()
 export class PlayersService implements CrudPlayers {
@@ -71,7 +72,7 @@ export class PlayersService implements CrudPlayers {
     }
   }
 
-  async findOne(idObject: { id: string }): Promise<Players> {
+  async findOne(idObject:FindById): Promise<Players> {
     try {
       const playerFound = await this.playersRepository.findOne({
         where: { id: idObject.id },
@@ -90,7 +91,7 @@ export class PlayersService implements CrudPlayers {
     }
   }
 
-  async update(idObject: { id: string }, updatePlayer: UpdatePlayerDto): Promise<Players> {
+  async update(idObject:FindById, updatePlayer: UpdatePlayerDto): Promise<Players> {
     try {
       const player = await this.playersRepository.findOne({ where: { id: idObject.id } });
       if (!player) {
@@ -124,7 +125,7 @@ export class PlayersService implements CrudPlayers {
     }
   }
 
-  async remove(idObject: { id: string }): Promise<{ message: string }> {
+  async remove(idObject:FindById): Promise<{ message: string }> {
     try {
       const player = await this.playersRepository.findOne({ where: { id: idObject.id } });
       if (!player) {
