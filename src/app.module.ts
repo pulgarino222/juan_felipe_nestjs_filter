@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { ConfigModuleCustom } from './config/config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { PlayersModule } from './modules/players/players.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './common/filters/general-exceptions.filter';
 
 @Module({
   imports: [ConfigModuleCustom,
@@ -16,9 +19,17 @@ import { join } from 'path';
       database: process.env.DB_NAME,
       entities: [join(__dirname + '/**/*.entity{.ts,.js}')],
       synchronize: true,}),
+    PlayersModule,
 
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide:APP_FILTER,
+      useClass:AllExceptionsFilter
+    }
+
+
+  ],
 })
 export class AppModule {}
