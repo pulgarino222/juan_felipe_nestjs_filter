@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete ,Query} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete ,Query, UseGuards} from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
@@ -8,7 +8,10 @@ import { FindByIdPipeCustom } from 'src/common/pipes/find-by-id.pipe';
 import { FindById } from 'src/common/dto/find-by-id.dto';
 import { UpdatePlayerPipe } from './pipes/update-player.pipe';
 import { CreatePlayerPipe } from './pipes/create-player.pipe';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/auth/guards/jwt-roles.guard';
 
+@UseGuards(JwtAuthGuard,RolesGuard)
 @Controller('players')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
