@@ -1,6 +1,6 @@
 import { IsEmail, IsNumber, IsString } from "class-validator";
 import { Column, PrimaryGeneratedColumn, Entity, CreateDateColumn, ManyToMany, JoinTable } from "typeorm";
-// import {Role} from '../../../auth/entities/roles.entity'; // los roles se definiran mas adelante 
+import {Role} from '../../../auth/entities/roles.entity'; // los roles se definiran mas adelante 
 
 @Entity()
 export class Players {
@@ -39,7 +39,7 @@ export class Players {
     whatsapp: number;
 
 
-    // @ManyToMany(() => Role, role => role.users)
-    // @JoinTable() 
-    // roles: Role[];
+    @ManyToMany(() => Role, role => role.users)
+    @JoinTable() 
+    roles: Role[];
 }

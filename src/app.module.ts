@@ -7,9 +7,11 @@ import { join } from 'path';
 import { PlayersModule } from './modules/players/players.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/general-exceptions.filter';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModuleCustom,
+    AuthModule,
     TypeOrmModule.forRoot({ 
       type:'mysql',
       host: process.env.DB_HOST,

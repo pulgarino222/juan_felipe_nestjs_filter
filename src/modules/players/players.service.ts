@@ -21,7 +21,7 @@ export class PlayersService implements CrudPlayers {
 
   async createPlayer(createPlayer: CreatePlayerDto): Promise<Players> {
     try {
-      const { password, confirmPassword } = createPlayer;
+      const { password, confirmPassword, roles, ...rest } = createPlayer;
 
       if (password !== confirmPassword) {
         throw new BadRequestException('The keys do not match; ensure that confirm password is correct.');
@@ -30,9 +30,10 @@ export class PlayersService implements CrudPlayers {
       const encryptedPassword = await bcrypt.hash(password, 10);
 
       const newPlayer = this.playersRepository.create({
-        ...createPlayer,
+        ...rest,
         password: encryptedPassword,
-      });
+        roles: roles.map(roleId => ({ id: roleId })), 
+    });
 
       return await this.playersRepository.save(newPlayer);
     } catch (error) {
@@ -57,7 +58,7 @@ export class PlayersService implements CrudPlayers {
       const [players, total] = await this.playersRepository.findAndCount({
         skip,
         take: limit,
-        // relations: ['roles']
+        relations: ['roles']
       });
 
       return {
@@ -76,7 +77,7 @@ export class PlayersService implements CrudPlayers {
     try {
       const playerFound = await this.playersRepository.findOne({
         where: { id: idObject.id },
-        // relations: ['roles']
+        relations: ['roles']
       });
       if (!playerFound) {
         throw new NotFoundException(`Player with id ${idObject.id} was not found; ensure that the id is correct.`);
@@ -114,7 +115,7 @@ export class PlayersService implements CrudPlayers {
 
       return await this.playersRepository.findOne({
         where: { id: idObject.id },
-        // relations: ['roles']
+        relations: ['roles']
       });
     } catch (error) {
       console.error('Error updating player:', error.message);
@@ -148,7 +149,7 @@ export class PlayersService implements CrudPlayers {
     try {
       const player = await this.playersRepository.findOne({
         where: { email },
-        // relations: ['roles'],
+        relations: ['roles'],
       });
 
       return player;
