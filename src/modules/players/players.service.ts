@@ -113,7 +113,7 @@ export class PlayersService implements CrudPlayers {
 
       return await this.playersRepository.findOne({
         where: { id: idObject.id },
-        // relations: ['roles'], // Descomentar si necesitas relaciones
+        // relations: ['roles']
       });
     } catch (error) {
       console.error('Error updating player:', error.message);
@@ -147,7 +147,7 @@ export class PlayersService implements CrudPlayers {
     try {
       const player = await this.playersRepository.findOne({
         where: { email },
-        // relations: ['roles'], // Descomentar si necesitas relaciones
+        // relations: ['roles'],
       });
 
       return player;

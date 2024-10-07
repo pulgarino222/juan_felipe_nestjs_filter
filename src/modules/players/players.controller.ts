@@ -4,6 +4,9 @@ import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { PaginationDTO } from 'src/common/dto/pagination.dto';
 import { PaginationValidationPipe } from 'src/common/pipes/paginations.pipe';
+import { FindByIdPipeCustom } from 'src/common/pipes/find-by-id.pipe';
+import { FindById } from 'src/common/dto/find-by-id.dto';
+import { UpdatePlayerPipe } from './pipes/update-player.pipe';
 
 @Controller('players')
 export class PlayersController {
@@ -19,18 +22,18 @@ export class PlayersController {
     return this.playersService.findAll(Pagination);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.playersService.findOne(+id);
-  // }
+  @Get(':id')
+  findOne(@Param(FindByIdPipeCustom) id:FindById) {
+    return this.playersService.findOne(id);
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updatePlayerDto: UpdatePlayerDto) {
-  //   return this.playersService.update(+id, updatePlayerDto);
-  // }
+  @Patch(':id')
+  update(@Param(FindByIdPipeCustom) id:FindById, @Body(UpdatePlayerPipe) updatePlayer: UpdatePlayerDto) {
+    return this.playersService.update(id, updatePlayer);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.playersService.remove(+id);
-  // }
+  @Delete(':id')
+  remove(@Param(FindByIdPipeCustom) id:FindById) {
+    return this.playersService.remove(id);
+  }
 }
