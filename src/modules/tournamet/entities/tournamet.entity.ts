@@ -6,10 +6,9 @@ import {
     JoinTable,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany,
   } from 'typeorm';
   import { Players } from '../../players/entities/player.entity';
-import { TournamentPlayerScore } from 'src/modules/scor/entities/scor.entity';
+import { Score } from 'src/modules/scor/entities/scor.entity';
   
   @Entity()
   export class Tournament {
@@ -43,8 +42,10 @@ import { TournamentPlayerScore } from 'src/modules/scor/entities/scor.entity';
     @ManyToMany(() => Players, players => players.tournaments)
     @JoinTable()
     players: Players[]; 
+    
+    @ManyToMany(() => Score, score => score.tournament)
+scores: Score[];
 
-    @OneToMany(() => TournamentPlayerScore, score => score.tournament)
-  scores: TournamentPlayerScore[];
+    
   }
   

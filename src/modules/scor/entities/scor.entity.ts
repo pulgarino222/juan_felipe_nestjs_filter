@@ -4,29 +4,31 @@ import {
     Column,
     ManyToOne,
     JoinColumn,
-  } from 'typeorm';
-  import { Tournament } from '../../tournamet/entities/tournamet.entity';
-  import { Players } from '../../players/entities/player.entity';
-  
-  @Entity()
-  export class TournamentPlayerScore {
+    CreateDateColumn,
+    UpdateDateColumn,
+} from 'typeorm';
+import { Players } from '../../players/entities/player.entity';
+import { Tournament } from '../../tournamet/entities/tournamet.entity';
+
+@Entity()
+export class Score {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-  
-    @ManyToOne(() => Tournament, tournament => tournament.scores)
-    @JoinColumn({ name: 'tournamentId' })
-    tournament: Tournament;
-  
+
+    @Column({ type: 'int' })
+    score: number;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+
     @ManyToOne(() => Players, player => player.scores)
     @JoinColumn({ name: 'playerId' })
     player: Players;
-  
-    @Column({ type: 'decimal', default: 0 })
-    score: number;
-  
-    @Column({ type: 'text', nullable: true })
-    notes: string; 
-    @Column({ default: new Date() })
-    createdAt: Date;
-  }
-  
+
+    @ManyToOne(() => Tournament, tournament => tournament.scores)
+    @JoinColumn({ name: 'tournamentId' })
+    tournament: Tournament;
+}

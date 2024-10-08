@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateTournametDto } from './dto/create-tournamet.dto';
-import { UpdateTournametDto } from './dto/update-tournamet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tournament } from './entities/tournamet.entity';
 import { Repository } from 'typeorm';
@@ -29,7 +28,8 @@ export class TournametService {
 
   async getTournamentById(id: string): Promise<Tournament> {
     try {
-      const tournament = await this.tournamentRepository.findOne({ where: { id } });
+      const tournament = await this.tournamentRepository.findOne({ where: { id } ,
+      });
       if (!tournament) {
         throw new NotFoundException('Tournament not found');
       }
