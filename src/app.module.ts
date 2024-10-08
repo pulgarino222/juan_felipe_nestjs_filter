@@ -9,6 +9,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/general-exceptions.filter';
 import { AuthModule } from './auth/auth.module';
 import { TournametModule } from './modules/tournamet/tournamet.module';
+import { ScorModule } from './modules/scor/scor.module';
 
 @Module({
   imports: [ConfigModuleCustom,
@@ -24,6 +25,7 @@ import { TournametModule } from './modules/tournamet/tournamet.module';
       synchronize: true,}),
     PlayersModule,
     TournametModule,
+    ScorModule,
 
   ],
   controllers: [AppController],

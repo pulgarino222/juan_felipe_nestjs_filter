@@ -9,7 +9,7 @@ import { UpdatePlayerPipe } from './pipes/update-player.pipe';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/jwt-roles.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard,RolesGuard)
 @Controller('players')
 export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
