@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ScorService } from './scor.service';
-import { ScorController } from './scor.controller';
+import { ScoresService } from './scor.service';
+import { ScoresController } from './scor.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Score } from './entities/scor.entity';
 
 @Module({
-  controllers: [ScorController],
-  providers: [ScorService],
+  imports: [TypeOrmModule.forFeature([Score])],
+  exports: [ScoresService],
+  controllers: [ScoresController],
+  providers: [ScoresService],
 })
 export class ScorModule {}

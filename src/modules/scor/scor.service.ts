@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { CreateScorDto } from './dto/create-scor.dto';
-import { UpdateScorDto } from './dto/update-scor.dto';
+import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Score } from '../scor/entities/scor.entity';
 
 @Injectable()
-export class ScorService {
-  create(createScorDto: CreateScorDto) {
-    return 'This action adds a new scor';
-  }
+export class ScoresService {
+    constructor(
+        @InjectRepository(Score)
+        private readonly scoresRepository: Repository<Score>,
+    ) {}
 
-  findAll() {
-    return `This action returns all scor`;
-  }
+    async findAll(): Promise<Score[]> {
+        try {
+            return await this.scoresRepository.find({ relations: ['player', 'tournament'] });
+        } catch (error) {
+            console.error('Error fetching scores:', error.message);
+            throw new InternalServerErrorException('Error fetching scores; please try again later.');
+        }
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} scor`;
-  }
-
-  update(id: number, updateScorDto: UpdateScorDto) {
-    return `This action updates a #${id} scor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} scor`;
-  }
+    async findOne(id: string): Promise<Score> {
+        try {
+            const score = await this.scoresRepository.findOne({
+                where: { id },
+                relations: ['player', 'tournament'],
+            });
+            if (!score) {
+                throw new NotFoundException(`Score with id ${id} not found.`);
+            }
+            return score;
+        } catch (error) {
+            if (error instanceof NotFoundException) {
+                throw error;
+            }
+            console.error('Error finding score:', error.message);
+            throw new InternalServerErrorException('Error finding the score; please try again later.');
+        }
+    }
 }
+

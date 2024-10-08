@@ -1,34 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ScorService } from './scor.service';
-import { CreateScorDto } from './dto/create-scor.dto';
-import { UpdateScorDto } from './dto/update-scor.dto';
+import { Controller, Get, Param } from '@nestjs/common';
+import { ScoresService } from '../scor/scor.service';
+import { Score } from '../scor/entities/scor.entity';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
-@Controller('scor')
-export class ScorController {
-  constructor(private readonly scorService: ScorService) {}
+@ApiTags('scores')
+@Controller('scores')
+export class ScoresController {
+    constructor(private readonly scoresService: ScoresService) {}
 
-  @Post()
-  create(@Body() createScorDto: CreateScorDto) {
-    return this.scorService.create(createScorDto);
-  }
+    @Get()
+    @ApiOperation({ summary: 'Retrieve all scores' })
+    @ApiResponse({ status: 200, description: 'Successfully retrieved all scores.' })
+    async findAll(): Promise<Score[]> {
+        return this.scoresService.findAll();
+    }
 
-  @Get()
-  findAll() {
-    return this.scorService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.scorService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateScorDto: UpdateScorDto) {
-    return this.scorService.update(+id, updateScorDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.scorService.remove(+id);
-  }
+    @Get(':id')
+    @ApiOperation({ summary: 'Retrieve a score by ID' })
+    @ApiResponse({ status: 200, description: 'Successfully retrieved the score.' })
+    @ApiResponse({ status: 404, description: 'Score not found.' })
+    @ApiParam({ name: 'id', required: true, description: 'Score ID' })
+    async findOne(@Param('id') id: string): Promise<Score> {
+        return this.scoresService.findOne(id);
+    }
 }
