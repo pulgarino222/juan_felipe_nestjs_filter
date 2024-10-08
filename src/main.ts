@@ -9,8 +9,8 @@ const PORT=process.env.PORT
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Your API Title')
-    .setDescription('API description')
+    .setTitle('THE BEST APPI OF VIDEO GAMES')
+    .setDescription('I implment the best appi of video game you can auth with google and see a pretty welcome page and you can participle in any tournament the way random ')
     .setVersion('1.0')
     .addBearerAuth() 
     .build();
