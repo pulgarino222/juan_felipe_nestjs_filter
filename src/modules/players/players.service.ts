@@ -18,7 +18,7 @@ import { Tournament } from '../tournamet/entities/tournamet.entity';
 
 @Injectable()
 export class PlayersService implements CrudPlayers {
-  constructor(@InjectRepository(Players) private playersRepository: Repository<Players>) {}
+  constructor(@InjectRepository(Players) private playersRepository: Repository<Players>) { }
   @InjectRepository(Tournament) private tournamentRepository: Repository<Tournament>
 
   async createPlayer(createPlayer: CreatePlayerDto): Promise<Players> {
@@ -34,8 +34,8 @@ export class PlayersService implements CrudPlayers {
       const newPlayer = this.playersRepository.create({
         ...rest,
         password: encryptedPassword,
-        roles: roles.map(roleId => ({ id: roleId })), 
-    });
+        roles: roles.map(roleId => ({ id: roleId })),
+      });
 
       return await this.playersRepository.save(newPlayer);
     } catch (error) {
@@ -60,7 +60,7 @@ export class PlayersService implements CrudPlayers {
       const [players, total] = await this.playersRepository.findAndCount({
         skip,
         take: limit,
-        relations: ['roles','tournaments']
+        relations: ['roles', 'tournaments']
       });
 
       return {
@@ -75,11 +75,11 @@ export class PlayersService implements CrudPlayers {
     }
   }
 
-  async findOne(idObject:FindById): Promise<Players> {
+  async findOne(idObject: FindById): Promise<Players> {
     try {
       const playerFound = await this.playersRepository.findOne({
         where: { id: idObject.id },
-        relations: ['roles','tournaments']
+        relations: ['roles', 'tournaments']
       });
       if (!playerFound) {
         throw new NotFoundException(`Player with id ${idObject.id} was not found; ensure that the id is correct.`);
@@ -94,7 +94,7 @@ export class PlayersService implements CrudPlayers {
     }
   }
 
-  async update(idObject:FindById, updatePlayer: UpdatePlayerDto): Promise<Players> {
+  async update(idObject: FindById, updatePlayer: UpdatePlayerDto): Promise<Players> {
     try {
       const player = await this.playersRepository.findOne({ where: { id: idObject.id } });
       if (!player) {
@@ -111,13 +111,13 @@ export class PlayersService implements CrudPlayers {
         updatePlayer.password = await bcrypt.hash(password, 10);
       }
 
-      Object.assign(player, updatePlayer); 
+      Object.assign(player, updatePlayer);
 
-      await this.playersRepository.save(player); 
+      await this.playersRepository.save(player);
 
       return await this.playersRepository.findOne({
         where: { id: idObject.id },
-        relations: ['roles','tournaments']
+        relations: ['roles', 'tournaments']
       });
     } catch (error) {
       console.error('Error updating player:', error.message);
@@ -128,7 +128,7 @@ export class PlayersService implements CrudPlayers {
     }
   }
 
-  async remove(idObject:FindById): Promise<{ message: string }> {
+  async remove(idObject: FindById): Promise<{ message: string }> {
     try {
       const player = await this.playersRepository.findOne({ where: { id: idObject.id } });
       if (!player) {
@@ -166,49 +166,48 @@ export class PlayersService implements CrudPlayers {
 
 
 
- 
+
 
   async matchPlayerToRandomTournament(playerId: string): Promise<{ message: string; tournamentName: string; playerNickname: string }> {
     try {
-      // Obtener el jugador
+
       const player = await this.playersRepository.findOne({
         where: { id: playerId },
         relations: ['tournaments'],
       });
-  
+
       if (!player) {
         throw new NotFoundException('Player not found');
       }
-  
-      // Obtener todos los torneos
+
+
       const tournaments = await this.tournamentRepository.find();
-  
+
       if (tournaments.length === 0) {
         throw new NotFoundException('No tournaments available');
       }
-  
+
       let randomTournament;
       let tries = 0;
-      const maxTries = 5; // Número máximo de intentos para evitar un bucle infinito
-  
-      // Intentar encontrar un torneo no emparejado
+      const maxTries = 5;
+
       do {
         randomTournament = tournaments[Math.floor(Math.random() * tournaments.length)];
         tries++;
       } while (player.tournaments.some(t => t.id === randomTournament.id) && tries < maxTries);
-  
-      // Si no se encontró un torneo adecuado
+
+
       if (player.tournaments.some(t => t.id === randomTournament.id)) {
         throw new ConflictException('No unassigned tournaments available for this player');
       }
-  
-      // Agregar el torneo al jugador
+
+
       player.tournaments.push(randomTournament);
-      
-      // Guardar el jugador actualizado
+
+
       await this.playersRepository.save(player);
-  
-      // Devolver la respuesta con el nombre del torneo y el apodo del jugador
+
+
       return {
         message: 'Player successfully matched to a random tournament.',
         tournamentName: randomTournament.name,
@@ -219,8 +218,8 @@ export class PlayersService implements CrudPlayers {
       throw new InternalServerErrorException(`Error matching player to tournament: ${error.message}`);
     }
   }
-  
-  
-  
+
+
+
 }
 
