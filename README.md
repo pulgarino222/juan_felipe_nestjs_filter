@@ -96,3 +96,18 @@ Este proyecto está construido utilizando las siguientes tecnologías:
 ¡Disfruta de la mejor experiencia en videojuegos! 🎮
 
 
+
+json para pruebas:
+
+{
+    "nickname": "gamer123",
+    "fullname": "Juan Felipe Pulgarin",
+    "email": "juan.pulgarin@example.com",
+    "age": 25,
+    "isActive": true,
+    "password": "securePassword123",
+    "confirmPassword": "securePassword123",
+    "whatsapp": 1234567890,
+    "roles": [1, 2]
+}
+
