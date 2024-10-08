@@ -1,73 +1,82 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# THE BEST APPI OF VIDEO GAMES BY JUAN FELIPE PULGARIN 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Autenticación con Google
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Para utilizar la autenticación con Google, debes acceder a la siguiente ruta desde tu navegador:
 
-## Description
+http://localhost:3001/auth/google
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+Desde allí, serás registrado o, en caso de que ya estés registrado, solo te autenticarás y serás redirigido a la página de inicio.
 
-```bash
-$ npm install
-```
+## Endpoints Disponibles
 
-## Running the app
+### Players
 
-```bash
-# development
-$ npm run start
+- **GET** `/players`  
+  Recupera todos los jugadores.
 
-# watch mode
-$ npm run start:dev
+- **GET** `/players/:id`  
+  Recupera un jugador específico por ID.
 
-# production mode
-$ npm run start:prod
-```
+- **PATCH** `/players/:id`  
+  Actualiza un jugador específico por ID.
 
-## Test
+- **DELETE** `/players/:id`  
+  Elimina un jugador específico por ID.
 
-```bash
-# unit tests
-$ npm run test
+- **PATCH** `/players/:id/match-random-tournament`  
+  Asigna un torneo aleatorio a un jugador específico por ID.
 
-# e2e tests
-$ npm run test:e2e
+### Tournaments
 
-# test coverage
-$ npm run test:cov
-```
+- **GET** `/tournaments`  
+  Recupera todos los torneos.
 
-## Support
+- **POST** `/tournaments`  
+  Crea un nuevo torneo.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **GET** `/tournaments/:id`  
+  Recupera un torneo específico por ID.
 
-## Stay in touch
+- **PUT** `/tournaments/:id`  
+  Actualiza un torneo específico por ID.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **DELETE** `/tournaments/:id`  
+  Elimina un torneo específico por ID.
 
-## License
+### Scores
 
-Nest is [MIT licensed](LICENSE).
+- **GET** `/scores`  
+  Recupera todos los puntajes.
+
+- **GET** `/scores/:id`  
+  Recupera un puntaje específico por ID.
+
+## Tecnologías Utilizadas
+
+Este proyecto está construido utilizando las siguientes tecnologías:
+
+- **NestJS**: Un marco de trabajo para construir aplicaciones de servidor.
+- **TypeORM**: Para interactuar con bases de datos SQL.
+- **Swagger**: Para la documentación de la API.
+- **JWT**: Para la autenticación de usuarios.
+- **Passport**: Para implementar estrategias de autenticación (Google OAuth).
+- **Bcrypt**: Para el hash de contraseñas.
+- **Class-validator** y **Class-transformer**: Para la validación y transformación de datos.
+- **MySQL**: Como sistema de gestión de bases de datos.
+
+### Otras Características
+
+- **Excepciones**: Implementación de filtros de excepciones personalizados para manejar errores.
+- **DTOs**: Uso de objetos de transferencia de datos para validar las entradas y salidas.
+- **Interceptors**: Para manejar la transformación de resultados y la gestión de respuestas.
+
+## Comandos Disponibles
+
+- `npm run build`: Compila el proyecto.
+- `npm run start`: Inicia la aplicación en modo producción.
+- `npm run start:dev`: Inicia la aplicación en modo desarrollo.
+- `npm run test`: Ejecuta las pruebas.
+- `npm run lint`: Lint el código con ESLint.
+

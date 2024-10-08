@@ -3,10 +3,10 @@ import { registerDecorator, ValidationOptions, ValidatorConstraint, ValidatorCon
 @ValidatorConstraint({ name: 'lengthNumber', async: false })
 export class LengthNumberConstraint implements ValidatorConstraintInterface {
   validate(value: any, args: any) {
-    // Asegúrate de que sea un número
+
     if (typeof value !== 'number') return false;
 
-    // Convierte el número a string y verifica la longitud
+   
     return value.toString().length === args.constraints[0];
   }
 

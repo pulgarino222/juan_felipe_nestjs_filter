@@ -8,10 +8,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { PlayersService } from '../modules/players/players.service'; 
 import { JwtStrategyRols } from './strategy/rols.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
+import { Tournament } from 'src/modules/tournamet/entities/tournamet.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Players, Role]), 
+    TypeOrmModule.forFeature([Players, Role,Tournament]), 
     JwtModule.register({  
       global: true,
       secret: process.env.JWT_SECRET_APPI,

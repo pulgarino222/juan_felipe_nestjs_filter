@@ -1,6 +1,8 @@
 import { IsEmail, IsNumber, IsString } from "class-validator";
 import { Column, PrimaryGeneratedColumn, Entity, CreateDateColumn, ManyToMany, JoinTable } from "typeorm";
-import {Role} from '../../../auth/entities/roles.entity'; // los roles se definiran mas adelante 
+import {Role} from '../../../auth/entities/roles.entity'; 
+import { Tournament } from '../../tournamet/entities/tournamet.entity';
+import { Score } from "src/modules/scor/entities/scor.entity";
 
 @Entity()
 export class Players {
@@ -42,4 +44,10 @@ export class Players {
     @ManyToMany(() => Role, role => role.users)
     @JoinTable() 
     roles: Role[];
+
+    @ManyToMany(() => Tournament, tournament => tournament.players)
+    tournaments: Tournament[];
+
+    @ManyToMany(() => Score, score => score.player)
+    scores: Score[];
 }
