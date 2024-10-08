@@ -1,82 +1,98 @@
-# THE BEST APPI OF VIDEO GAMES BY JUAN FELIPE PULGARIN 
+# 🎮 THE BEST APP OF VIDEO GAMES BY JUAN FELIPE PULGARIN 🎮
 
-## Autenticación con Google
+## 🔐 Autenticación con Google
 
-Para utilizar la autenticación con Google, debes acceder a la siguiente ruta desde tu navegador:
+Para utilizar la autenticación con Google, accede a la siguiente ruta desde tu navegador:
 
-http://localhost:3001/auth/google
+### [http://localhost:3001/auth/google](http://localhost:3001/auth/google)
 
+Desde allí, podrás registrarte. Si ya estás registrado, solo necesitarás autenticarte y serás redirigido a la página de inicio.
 
-Desde allí, serás registrado o, en caso de que ya estés registrado, solo te autenticarás y serás redirigido a la página de inicio.
+---
 
-## Endpoints Disponibles
+## 📡 Endpoints Disponibles
 
-### Players
+### **Players**
 
 - **GET** `/players`  
-  Recupera todos los jugadores.
+  Recupera **todos los jugadores**.
 
 - **GET** `/players/:id`  
-  Recupera un jugador específico por ID.
+  Recupera un **jugador específico** por ID.
 
 - **PATCH** `/players/:id`  
-  Actualiza un jugador específico por ID.
+  Actualiza un **jugador específico** por ID.
 
 - **DELETE** `/players/:id`  
-  Elimina un jugador específico por ID.
+  Elimina un **jugador específico** por ID.
 
 - **PATCH** `/players/:id/match-random-tournament`  
-  Asigna un torneo aleatorio a un jugador específico por ID.
+  Asigna un **torneo aleatorio** a un jugador específico por ID.
 
-### Tournaments
+---
+
+### **Tournaments**
 
 - **GET** `/tournaments`  
-  Recupera todos los torneos.
+  Recupera **todos los torneos**.
 
 - **POST** `/tournaments`  
-  Crea un nuevo torneo.
+  Crea un **nuevo torneo**.
 
 - **GET** `/tournaments/:id`  
-  Recupera un torneo específico por ID.
+  Recupera un **torneo específico** por ID.
 
 - **PUT** `/tournaments/:id`  
-  Actualiza un torneo específico por ID.
+  Actualiza un **torneo específico** por ID.
 
 - **DELETE** `/tournaments/:id`  
-  Elimina un torneo específico por ID.
+  Elimina un **torneo específico** por ID.
 
-### Scores
+---
+
+### **Scores**
 
 - **GET** `/scores`  
-  Recupera todos los puntajes.
+  Recupera **todos los puntajes**.
 
 - **GET** `/scores/:id`  
-  Recupera un puntaje específico por ID.
+  Recupera un **puntaje específico** por ID.
 
-## Tecnologías Utilizadas
+---
+
+## 🛠️ Tecnologías Utilizadas
 
 Este proyecto está construido utilizando las siguientes tecnologías:
 
-- **NestJS**: Un marco de trabajo para construir aplicaciones de servidor.
-- **TypeORM**: Para interactuar con bases de datos SQL.
-- **Swagger**: Para la documentación de la API.
-- **JWT**: Para la autenticación de usuarios.
-- **Passport**: Para implementar estrategias de autenticación (Google OAuth).
-- **Bcrypt**: Para el hash de contraseñas.
-- **Class-validator** y **Class-transformer**: Para la validación y transformación de datos.
-- **MySQL**: Como sistema de gestión de bases de datos.
+- **NestJS**: Framework potente para construir aplicaciones de servidor.
+- **TypeORM**: Para la interacción con bases de datos SQL.
+- **Swagger**: Para la **documentación** de la API.
+- **JWT**: Para la **autenticación** de usuarios.
+- **Passport**: Implementación de estrategias de autenticación (Google OAuth).
+- **Bcrypt**: Para el **hashing** de contraseñas.
+- **Class-validator** y **Class-transformer**: Para la **validación** y **transformación** de datos.
+- **MySQL**: Sistema de gestión de bases de datos.
 
-### Otras Características
+---
 
-- **Excepciones**: Implementación de filtros de excepciones personalizados para manejar errores.
-- **DTOs**: Uso de objetos de transferencia de datos para validar las entradas y salidas.
-- **Interceptors**: Para manejar la transformación de resultados y la gestión de respuestas.
+### 🌟 Otras Características
 
-## Comandos Disponibles
+- **Excepciones**: Implementación de filtros de excepciones personalizadas para un manejo efectivo de errores.
+- **DTOs**: Uso de **Data Transfer Objects** para validar las entradas y salidas.
+- **Interceptors**: Para manejar la **transformación** de resultados y la gestión de respuestas.
+
+---
+
+## 🏗️ Comandos Disponibles
 
 - `npm run build`: Compila el proyecto.
-- `npm run start`: Inicia la aplicación en modo producción.
-- `npm run start:dev`: Inicia la aplicación en modo desarrollo.
-- `npm run test`: Ejecuta las pruebas.
-- `npm run lint`: Lint el código con ESLint.
+- `npm run start`: Inicia la aplicación en **modo producción**.
+- `npm run start:dev`: Inicia la aplicación en **modo desarrollo**.
+- `npm run test`: Ejecuta las **pruebas**.
+- `npm run lint`: Aplica **linting** al código con ESLint.
+
+---
+
+¡Disfruta de la mejor experiencia en videojuegos! 🎮
+
 
