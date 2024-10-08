@@ -1,0 +1,53 @@
+import { IsEmail, IsNumber, IsString } from "class-validator";
+import { Column, PrimaryGeneratedColumn, Entity, CreateDateColumn, ManyToMany, JoinTable } from "typeorm";
+import {Role} from '../../../auth/entities/roles.entity'; 
+import { Tournament } from '../../tournamet/entities/tournamet.entity';
+import { Score } from "src/modules/scor/entities/scor.entity";
+
+@Entity()
+export class Players {
+
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @CreateDateColumn()
+    updatedAt: Date;
+
+    @Column()
+    nickname: string;
+
+    @Column()
+    fullname:string
+
+    @Column({ unique: true })
+    @IsEmail()
+    email: string;
+
+    @Column()
+    age: number;
+
+    @Column({ default: true })
+    isActive: boolean;
+
+    @Column()
+    @IsString()
+    password: string;
+
+    @Column({ type: 'bigint' })
+    @IsNumber()
+    whatsapp: number;
+
+
+    @ManyToMany(() => Role, role => role.users)
+    @JoinTable() 
+    roles: Role[];
+
+    @ManyToMany(() => Tournament, tournament => tournament.players)
+    tournaments: Tournament[];
+
+    @ManyToMany(() => Score, score => score.player)
+    scores: Score[];
+}
