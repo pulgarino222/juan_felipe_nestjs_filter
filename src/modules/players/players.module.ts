@@ -7,7 +7,7 @@ import { Role } from 'src/auth/entities/roles.entity';
 import { Tournament } from '../tournamet/entities/tournamet.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Players,Role])],
+  imports:[TypeOrmModule.forFeature([Players,Role,Tournament])],
   controllers: [PlayersController],
   providers: [PlayersService],
 })

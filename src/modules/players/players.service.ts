@@ -14,10 +14,12 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { PaginationDTO } from 'src/common/dto/pagination.dto';
 import { FindById } from 'src/common/dto/find-by-id.dto';
+import { Tournament } from '../tournamet/entities/tournamet.entity';
 
 @Injectable()
 export class PlayersService implements CrudPlayers {
   constructor(@InjectRepository(Players) private playersRepository: Repository<Players>) {}
+  @InjectRepository(Tournament) private tournamentRepository: Repository<Tournament>
 
   async createPlayer(createPlayer: CreatePlayerDto): Promise<Players> {
     try {
@@ -158,5 +160,67 @@ export class PlayersService implements CrudPlayers {
       throw new InternalServerErrorException('Error finding the player by email; please try again later.');
     }
   }
+
+
+
+
+
+
+ 
+
+  async matchPlayerToRandomTournament(playerId: string): Promise<{ message: string; tournamentName: string; playerNickname: string }> {
+    try {
+      // Obtener el jugador
+      const player = await this.playersRepository.findOne({
+        where: { id: playerId },
+        relations: ['tournaments'],
+      });
+  
+      if (!player) {
+        throw new NotFoundException('Player not found');
+      }
+  
+      // Obtener todos los torneos
+      const tournaments = await this.tournamentRepository.find();
+  
+      if (tournaments.length === 0) {
+        throw new NotFoundException('No tournaments available');
+      }
+  
+      let randomTournament;
+      let tries = 0;
+      const maxTries = 5; // Número máximo de intentos para evitar un bucle infinito
+  
+      // Intentar encontrar un torneo no emparejado
+      do {
+        randomTournament = tournaments[Math.floor(Math.random() * tournaments.length)];
+        tries++;
+      } while (player.tournaments.some(t => t.id === randomTournament.id) && tries < maxTries);
+  
+      // Si no se encontró un torneo adecuado
+      if (player.tournaments.some(t => t.id === randomTournament.id)) {
+        throw new ConflictException('No unassigned tournaments available for this player');
+      }
+  
+      // Agregar el torneo al jugador
+      player.tournaments.push(randomTournament);
+      
+      // Guardar el jugador actualizado
+      await this.playersRepository.save(player);
+  
+      // Devolver la respuesta con el nombre del torneo y el apodo del jugador
+      return {
+        message: 'Player successfully matched to a random tournament.',
+        tournamentName: randomTournament.name,
+        playerNickname: player.nickname,
+      };
+    } catch (error) {
+      console.error('Error in matching player to tournament:', error);
+      throw new InternalServerErrorException(`Error matching player to tournament: ${error.message}`);
+    }
+  }
+  
+  
+  
 }
 

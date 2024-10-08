@@ -1,9 +1,14 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTournametDto } from './dto/create-tournamet.dto';
 import { UpdateTournametDto } from './dto/update-tournamet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Tournament } from './entities/tournamet.entity';
 import { Repository } from 'typeorm';
+import { PaginationDTO } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class TournametService {
@@ -12,7 +17,7 @@ export class TournametService {
     private readonly tournamentRepository: Repository<Tournament>,
   ) {}
 
-  async createTournament(createTournament:CreateTournametDto): Promise<Tournament> {
+  async createTournament(createTournament: CreateTournametDto): Promise<Tournament> {
     try {
       const tournament = this.tournamentRepository.create(createTournament);
       return await this.tournamentRepository.save(tournament);
@@ -30,8 +35,25 @@ export class TournametService {
       }
       return tournament;
     } catch (error) {
-      console.error('Error fetching tournament:', error);
+      console.error('Error fetching tournament by ID:', error);
       throw new InternalServerErrorException('Error fetching tournament, please try again.');
+    }
+  }
+
+  async getAllTournaments(paginationDto: PaginationDTO): Promise<{ tournaments: Tournament[], total: number }> {
+    const { page, limit } = paginationDto;
+
+    try {
+      const [tournaments, total] = await this.tournamentRepository.findAndCount({
+        skip: (page - 1) * limit,
+        take: limit,
+        relations:['players']
+      });
+
+      return { tournaments, total };
+    } catch (error) {
+      console.error('Error fetching tournaments with pagination:', error);
+      throw new InternalServerErrorException('Error fetching tournaments, please try again.');
     }
   }
 

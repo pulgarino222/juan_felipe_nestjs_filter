@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { login } from './dto/login-auth.dto';
 import { CreatePlayerDto } from '../modules/players/dto/create-player.dto';
-import { CreatePlayerPipe } from '../modules/players/pipes/create-player.pipe'; // Ajusta la ruta si es necesario
+import { CreatePlayerPipe } from '../modules/players/pipes/create-player.pipe'; 
 import { GoogleAuthGuard } from './guards/jwt-google.guard';
 import { LoginCountInterceptor } from './interceptor/interceptor-count-login.interceptor';
 import { Players } from 'src/modules/players/entities/player.entity';

@@ -8,14 +8,22 @@ import {
   Body,
   HttpCode,
   HttpStatus,
+  Query
 } from '@nestjs/common';
 import { TournametService } from './tournamet.service';
 import { CreateTournametDto } from './dto/create-tournamet.dto';
 import { Tournament } from './entities/tournamet.entity';
+import { PaginationDTO } from 'src/common/dto/pagination.dto';
+import { PaginationValidationPipe } from 'src/common/pipes/paginations.pipe';
 
 @Controller('tournaments')
 export class TournamentController {
   constructor(private readonly tournamentService: TournametService) {}
+
+  @Get()
+  async getAllTournaments(@Query(PaginationValidationPipe) paginationDto: PaginationDTO): Promise<{ tournaments: Tournament[], total: number }> {
+    return this.tournamentService.getAllTournaments(paginationDto);
+  }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
