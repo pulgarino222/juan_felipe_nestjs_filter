@@ -58,7 +58,7 @@ export class PlayersService implements CrudPlayers {
       const [players, total] = await this.playersRepository.findAndCount({
         skip,
         take: limit,
-        relations: ['roles']
+        relations: ['roles','tournaments']
       });
 
       return {
@@ -77,7 +77,7 @@ export class PlayersService implements CrudPlayers {
     try {
       const playerFound = await this.playersRepository.findOne({
         where: { id: idObject.id },
-        relations: ['roles']
+        relations: ['roles','tournaments']
       });
       if (!playerFound) {
         throw new NotFoundException(`Player with id ${idObject.id} was not found; ensure that the id is correct.`);
@@ -115,7 +115,7 @@ export class PlayersService implements CrudPlayers {
 
       return await this.playersRepository.findOne({
         where: { id: idObject.id },
-        relations: ['roles']
+        relations: ['roles','tournaments']
       });
     } catch (error) {
       console.error('Error updating player:', error.message);
